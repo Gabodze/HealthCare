@@ -93,7 +93,8 @@ export const AppointmentForm = ({
       } else {
         const appointmentToUpdate = {
           userId,
-          appointmentId: appointment?.$id!,
+          appointmentId: appointment?.$id!,            
+          timeZone: "Asia/Tbilisi",
           appointment: {
             primaryPhysician: values.primaryPhysician,
             schedule: new Date(values.schedule),
