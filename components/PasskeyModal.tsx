@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 import {
   AlertDialog,
@@ -12,58 +12,36 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog'
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { decryptKey, encryptKey } from "@/lib/utils";
+} from '@/components/ui/input-otp'
 
 export const PasskeyModal = () => {
-  const router = useRouter();
-  const path = usePathname();
-  const [open, setOpen] = useState(false);
-  const [passkey, setPasskey] = useState("");
-  const [error, setError] = useState("");
-
-  const encryptedKey =
-    typeof window !== "undefined"
-      ? window.localStorage.getItem("accessKey")
-      : null;
+  const router = useRouter()
+  const path = usePathname()
+  const [open, setOpen] = useState(false)
+  const [passkey, setPasskey] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    const accessKey = encryptedKey && decryptKey(encryptedKey);
-
-    if (path)
-      if (accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY!.toString()) {
-        setOpen(false);
-        router.push("/admin");
-      } else {
-        setOpen(true);
-      }
-  }, [encryptedKey]);
+    setOpen(true)
+  }, [])
 
   const closeModal = () => {
-    setOpen(false);
-    router.push("/");
-  };
+    setOpen(false)
+    router.push('/')
+  }
 
   const validatePasskey = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
-    e.preventDefault();
-
-    if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
-      const encryptedKey = encryptKey(passkey);
-
-      localStorage.setItem("accessKey", encryptedKey);
-
-      setOpen(false);
-    } else {
-      setError("Invalid passkey. Please try again.");
-    }
-  };
+    e.preventDefault()
+    setOpen(false)
+    router.push('/admin')
+  }
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -116,5 +94,5 @@ export const PasskeyModal = () => {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
-};
+  )
+}
